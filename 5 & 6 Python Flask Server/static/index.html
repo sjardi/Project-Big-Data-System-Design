@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Frontend</title>
+    </head>
+    <body>
+        <form  id="search-form">
+            <input type="text"><input type="submit" value="Search!">
+        </form>
+        <div id="output"></div>
+        <script>
+            function processForm(e) {
+                e.preventDefault();
+                let keyword = form.elements[0].value;
+                let outputDiv = document.getElementById('output');
+                outputDiv.innerHTML = "Loading...";
+                fetch("/search/"+keyword).then((response) => {
+                    return response.json();
+                }).then((resultObj) => {
+                    outputDiv.innerHTML = "";
+                    resultObj.results.forEach((r) => {
+                        let el = document.createElement("div");
+                        let titleEl = document.createElement("h2");
+                        let link = document.createElement("a");
+                        link.href = r.url;
+                        link.innerText = r.title;
+                        titleEl.appendChild(link);
+                        el.appendChild(titleEl);
+                        let descEl = document.createElement("div");
+                        descEl.innerText = r.description;
+                        el.appendChild(descEl);
+                        outputDiv.appendChild(el);
+                    });
+                });
+                return false;
+            }
+
+            let form = document.getElementById('search-form');
+            form.addEventListener("submit", processForm);
+            form.elements[0].focus();
+        </script>
+    </body>
+</html>
