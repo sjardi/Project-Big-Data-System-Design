@@ -28,4 +28,5 @@ python3 elastic-consumer.py &
 
 #starting producer
 echo "Starting Kafka Producer"
-tail -n +1 -- ../1-Spider/output/* | kafka_2.11-2.1.0/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic pages &
+python3 spider-producer.py &
+#tail -n +1 -- ../1-Spider/output/* | kafka_2.11-2.1.0/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic pages &
