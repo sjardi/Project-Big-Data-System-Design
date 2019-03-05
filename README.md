@@ -7,3 +7,5 @@ Run `start-servers.sh` and open `localhost:5000`
 - Flask
 - Elasticsearch 6.3
 - Elaticsearch-py
+- Java
+- Kafka-Python
