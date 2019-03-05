@@ -1,4 +1,6 @@
 from flask import Flask, send_from_directory
+from elasticsearch import Elasticsearch
+import json
 
 app = Flask(__name__)
 
@@ -8,7 +10,12 @@ def index():
 
 @app.route('/search/<keyword>')
 def search(keyword):
-    return '{"results": [{"title": "Test article 1", "url": "https://google.com", "description":"Welcome to this test article. In this test article I will talk about..."}]}'
+    return getAllDocuments()
+
+def getAllDocuments():
+    es = Elasticsearch()
+    res = es.search(index="scraped-content", body={"query": {"match_all": {}}})
+    return json.dumps(res)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
