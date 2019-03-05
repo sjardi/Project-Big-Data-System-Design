@@ -18,7 +18,7 @@
                     return response.json();
                 }).then((resultObj) => {
                     outputDiv.innerHTML = "";
-                    resultObj.results.forEach((r) => {
+                    /*resultObj.results.forEach((r) => {
                         let el = document.createElement("div");
                         let titleEl = document.createElement("h2");
                         let link = document.createElement("a");
@@ -28,6 +28,19 @@
                         el.appendChild(titleEl);
                         let descEl = document.createElement("div");
                         descEl.innerText = r.description;
+                        el.appendChild(descEl);
+                        outputDiv.appendChild(el);
+                    });*/
+                    resultObj.hits.hits.forEach((r) => {
+                        let el = document.createElement("div");
+                        let titleEl = document.createElement("h2");
+                        let link = document.createElement("a");
+                        link.href = r._source.url;
+                        link.innerText = "Test Title";
+                        titleEl.appendChild(link);
+                        el.appendChild(titleEl);
+                        let descEl = document.createElement("div");
+                        descEl.innerText = r._source.content;
                         el.appendChild(descEl);
                         outputDiv.appendChild(el);
                     });

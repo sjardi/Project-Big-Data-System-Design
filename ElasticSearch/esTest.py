@@ -2,7 +2,7 @@ from initElasticsearch import elasticsearchIndexer
 
 es = elasticsearchIndexer();
 
-es.index('google.com', 'testtesttest')
+es.index('https://google.com', 'testtesttest')
 
 es.search()
 
