@@ -62,8 +62,6 @@ for i, li in enumerate(html.select('li')):
 #             # deeplinks = link.get('href')
 #             # print(deeplinks)
 
-pvda_url = 'https://www.pvda.nl/nieuws/'
-alreadyQueried = []
 def recursiveLinks(url_link,query):
     raw_html = simple_get(url_link)
     soup = BeautifulSoup(raw_html, 'html.parser')
@@ -100,28 +98,18 @@ def findAllHrefOnPage(url):
                     logfile = open("outputs/test_links.txt", 'a')
                     logfile.write( url + "\n" )
                     logfile.close()
-                    logfile.close()
                     found = False
            
-findAllHrefOnPage(pvda_url)
+#findAllHrefOnPage(pvda_url)
         
 #recursiveLinks(pvda_url, "nieuws")
-raw_html = simple_get(pvda_url)
-soup = BeautifulSoup(raw_html, 'html.parser')
+#raw_html = simple_get(pvda_url)
+#soup = BeautifulSoup(raw_html, 'html.parser')
 #print(soup)
-file_obj = open("outputs/text", "w")
-file_obj.write(str(soup))
+#file_obj = open("outputs/text", "w")
+#file_obj.write(str(soup))
 
-"""
- with file_obj as f:
-                found = False
-                for line in f:
-                    print("hoi")
-                    if re.search("\b{0}\b".format(url),line): 
-                        print("link gevonden" + url)
-                        write_file = open("outputs/test_links.txt", "r")
-                        found = True
-                    if not found:
-                        print('Link not found in file, adding to file: ' + url)
-                        write_file.write(str(soup))
-                        """
+filepath = 'Input_Links/input_link.txt'
+with open(filepath) as fp:
+    content = fp.readlines()
+All_Urls = [x.strip() for x in content]
