@@ -81,22 +81,22 @@ def findAllHrefOnPage(url):
     soup = BeautifulSoup(raw_html, 'html.parser')
 
     for link in soup.find_all('a'):
-        url = link.get('href')
-        if(url is not None) and (not url.startswith('/')) :
+        urls_on_page = link.get('href')
+        if(url_on_page is not None) and (urls_on_page in url) :
             
             file_obj = open("outputs/test_links.txt", "r")
             loglist = file_obj.readlines()
             file_obj.close()
             found = False
             for line in loglist:
-                if url in line:
-                    print (url + "Found in file, skipping.")
+                if url_on_page in line:
+                    print (url_on_page + "Found in file, skipping.")
                     found = True
 
                 if not found:
-                    print(url + "not found, adding to file.")
+                    print(url_on_page + "not found, adding to file.")
                     logfile = open("outputs/test_links.txt", 'a')
-                    logfile.write( url + "\n" )
+                    logfile.write( url_on_page + "\n" )
                     logfile.close()
                     found = False
            
@@ -112,4 +112,7 @@ def findAllHrefOnPage(url):
 filepath = 'Input_Links/input_link.txt'
 with open(filepath) as fp:
     content = fp.readlines()
-All_Urls = [x.strip() for x in content]
+All_website_urls = [x.strip() for x in content]
+
+for website in All_website_urls:
+    findAllHrefOnPage(website)
