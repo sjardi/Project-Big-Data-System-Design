@@ -68,24 +68,31 @@ def findAllHrefOnPage(url):
     for link in soup.find_all('a'):
         url_on_page = link.get('href')
         if(url_on_page is not None) and (url in url_on_page ):
-            writeToFile(url_on_page, All_Urls_On_Website_File)
+            writeToFile(url_on_page, All_Urls_On_Website_File, False)
 
-def writeToFile(content, file):
-    if os.path.exists(file) and os.path.getsize(file) > 0:
-        if content in open(file).read():
-            print("Content / Url Already In File, Skipping")
-            #Niet zeker bout dis close
-            file.close()
+def writeToFile(content, file, isHtml):
+    try:
+        if os.path.exists(file) and os.path.getsize(file) > 0:
+            if content in open(file).read() or (isHtml and content in open(file).readLines()):
+                print("Content / Url Already In File, Skipping")
+            else:
+                try:
+                    print("Content / URL NOT found, adding " +  content)
+                    logfile = open(file, 'a')
+                    logfile.write( content + "\n" )
+                    logfile.close()
+                except:
+                    print("error in 2e else van WriteToFile")
         else:
-            print("Content / URL NOT found, adding " +  content)
-            logfile = open(file, 'a')
-            logfile.write( content + "\n" )
-            logfile.close()
-    else:
-        print("file not found or empty. Writing first line or Creating file: " + file)
-        logfile = open(file, 'w')
-        logfile.write( content + "\n" )
-        logfile.close()
+            try:
+                print("file not found or empty. Writing first line or Creating file: " + file)
+                logfile = open(file, 'w')
+                logfile.write( content + "\n" )
+                logfile.close()
+            except:
+                print("error in 1e else van WriteToFile")
+    except:
+        "os path gaat fout"
 
 filepath = 'Input_Links/input_link.txt'
 with open(filepath) as fp:
@@ -94,8 +101,7 @@ All_website_urls = [x.strip() for x in content]
 
 for website in All_website_urls:
     print("bezig met website " + website)
-    
-   # findAllHrefOnPage(website)
+    findAllHrefOnPage(website)
 
 
 # Naar HTML file
@@ -106,14 +112,27 @@ def urlToHtml(url):
     except:
         print("IS KAPOT GEGAAN BIJ GET REQUEST OF BEAUTIFULSOUP IN URLTOHTML")
     try:
-        file_name = "Html_Output/" + url + ".html"
-        writeToFile( soup.prettify() , file_name)
+        fixedUrl = url.replace('https://','').replace('/','_')
+        file_name = "Html_Output/" + fixedUrl + ".html"
+        pretty_soup = soup.prettify()
+        try:
+            writeToFile( pretty_soup , file_name, True)
+        except:
+            print("writeTofile Failed")
     except:
-        print("kapot")    
+        print("Error bij urlToHtml aan het einde")    
 
-DierenFile = open ("outputs/utrecht.partijvoordedieren.nl.txt", "r")
-while True:
-    line = DierenFile.readline()
-    if not line : 
-        break
-    urlToHtml(line.strip())
+#AllFilesWithUrlPerWebsite
+input_path = "outputs/"
+for filename in os.listdir(input_path):
+    filename = input_path + filename
+    if os.path.exists(filename):
+        print("exists")
+        with open(filename, "r") as f:
+            for line in f.readlines():
+                if not line : 
+                    break
+                urlToHtml(line.strip())
+    else:
+        print("file not exist.")
+    
