@@ -39,7 +39,7 @@ def log_error(e):
     """
     print(e)
 
-from mathematicians import simple_get
+#from mathematicianss import simple_get
 """raw_html = simple_get('https://realpython.com/blog/')
 print(len(raw_html))
 
@@ -79,11 +79,10 @@ def recursiveLinks(url_link,query):
 def findAllHrefOnPage(url):
     raw_html = simple_get(url)
     soup = BeautifulSoup(raw_html, 'html.parser')
-
     for link in soup.find_all('a'):
-        urls_on_page = link.get('href')
-        if(url_on_page is not None) and (urls_on_page in url) :
-            
+        url_on_page = link.get('href')
+        if(url_on_page is not None) and (url in url_on_page ) :
+            print("GEVONDEN URL: " + url_on_page)
             file_obj = open("outputs/test_links.txt", "r")
             loglist = file_obj.readlines()
             file_obj.close()
@@ -115,4 +114,5 @@ with open(filepath) as fp:
 All_website_urls = [x.strip() for x in content]
 
 for website in All_website_urls:
+    print("bezig met website " + website)
     findAllHrefOnPage(website)
