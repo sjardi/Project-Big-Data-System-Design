@@ -44,6 +44,8 @@ def log_error(e):
 
 
 #Beautifull soup 4 
+
+#Werkt nog niet
 def recursiveLinks(url_link,query):
     raw_html = simple_get(url_link)
     soup = BeautifulSoup(raw_html, 'html.parser')
@@ -70,11 +72,10 @@ def findAllHrefOnPage(url):
 
 def writeToFile(url, file):
     if os.path.exists(file) and os.path.getsize(file) > 0:
-        print("file exists and not empty")
-        """openFile = open(file, 'r')
-        allUrlsInFile = openFile.readlines()"""
         if url in open(file).read():
             print("Url Already In File, Skipping")
+            #Niet zeker bout dis close
+            file.close()
         else:
             print("URL NOT found, adding " +  url)
             logfile = open(file, 'a')
@@ -94,9 +95,34 @@ All_website_urls = [x.strip() for x in content]
 for website in All_website_urls:
     print("bezig met website " + website)
     
-    findAllHrefOnPage(website)
+   # findAllHrefOnPage(website)
 
-            
+
+# Naar HTML file
+def urlToHtml(url):
+    try:
+        raw_html = simple_get(url)
+        soup = BeautifulSoup(raw_html, 'html.parser')
+    except:
+        print("IS KAPOT GEGAAN BIJ GET REQUEST OF BEAUTIFULSOUP IN URLTOHTML")
+    try:
+        print(soup.prettify())
+    except:
+        print("kapot")    
+
+DierenFile = open ("outputs/utrecht.partijvoordedieren.nl.txt", "r")
+while True:
+    line = DierenFile.readline()
+    if not line : 
+        break
+    urlToHtml(line.strip())
+"""with open("outputs/utrecht.partijvoordedieren.nl.txt", "r") as f:
+    for line in f:
+        try:
+            urlToHtml(line)
+        except:
+            print("error in url to html parameter")        
+"""
 """try:
     file_obj = open(All_Urls_On_Website_File, "r")
     loglist = file_obj.readlines()
