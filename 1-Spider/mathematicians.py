@@ -83,7 +83,12 @@ def findAllHrefOnPage(url):
         url_on_page = link.get('href')
         if(url_on_page is not None) and (url in url_on_page ) :
             print("GEVONDEN URL: " + url_on_page)
-            file_obj = open("outputs/test_links.txt", "r")
+            All_Urls_On_Website = "outputs/" + url
+            try:
+                file_obj = open(All_Urls_On_Website, "r")
+            except IOError:
+                file_obj = open(All_Urls_On_Website, "w")
+
             loglist = file_obj.readlines()
             file_obj.close()
             found = False
