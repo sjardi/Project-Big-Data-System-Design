@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7a43097b-5a4c-4fd6-83f6-dfe7c1314a40" name="Default Changelist" comment="Python Debugging werkt voor geen meter">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="7a43097b-5a4c-4fd6-83f6-dfe7c1314a40" name="Default Changelist" comment="Python Debugging werkt voor geen meter" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,7 +13,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/1-Spider/Crawler.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="517">
@@ -23,6 +21,15 @@
               <folding>
                 <element signature="e#0#24#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="51">
+              <caret line="3" column="4" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="4" />
             </state>
           </provider>
         </entry>
@@ -105,6 +112,7 @@
         <option value="$PROJECT_DIR$/5 &amp; 6 Python Flask Server/app.py" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/1-Spider/Crawler.py" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -131,12 +139,6 @@
               <item name="Project-Big-Data-System-Design" type="b2602c69:ProjectViewProjectNode" />
               <item name="Project-Big-Data-System-Design" type="462c0819:PsiDirectoryNode" />
               <item name="1-Spider" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Project-Big-Data-System-Design" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Project-Big-Data-System-Design" type="462c0819:PsiDirectoryNode" />
-              <item name="1-Spider" type="462c0819:PsiDirectoryNode" />
-              <item name="Html_Output" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Project-Big-Data-System-Design" type="b2602c69:ProjectViewProjectNode" />
@@ -231,7 +233,7 @@
       <workItem from="1551790207618" duration="7491000" />
       <workItem from="1552122657560" duration="865000" />
       <workItem from="1552123560154" duration="1143000" />
-      <workItem from="1552124812986" duration="8329000" />
+      <workItem from="1552124812986" duration="8496000" />
     </task>
     <task id="LOCAL-00001" summary="Python Debugging werkt voor geen meter">
       <created>1552133123242</created>
@@ -244,19 +246,19 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="17828000" />
+    <option name="totallyTimeSpent" value="17995000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="2576" height="1416" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25546876" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25546876" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32950193" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4988281" weight="0.32950193" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.49921876" visible="true" weight="0.4" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49921876" visible="true" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -300,13 +302,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../../Python/PyCharm/Python/Lib/site-packages/requests/cookies.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="525" selection-start-line="525" selection-end-line="525" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../Python/PyCharm/Python/Lib/site-packages/urllib3/util/retry.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="541">
@@ -535,6 +530,13 @@
           <folding>
             <element signature="e#0#24#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="4" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="4" />
         </state>
       </provider>
     </entry>
