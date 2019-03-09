@@ -4,7 +4,7 @@ from contextlib import closing
 from bs4 import BeautifulSoup
 from pathlib import Path
 import io
-import os
+import os.path
 
 
 def simple_get(url):
@@ -83,11 +83,8 @@ def findAllHrefOnPage(url, baseUrl=None):
 
 def writeToFile(content, file, isHtml):
     try:
-        try:
-            print("STAT SIZE IS " + os.path.getsize(file))
-        except:
-            print("error")
-        if os.path.path.isfile(file) and os.path.getsize(file) > 0:
+        # and os.path.getsize(file) > 0
+        if os.path.isfile(file.strip()):
             print("FILE TO OPEN IS " + file)
             if (isHtml is not True) and (content in open(file).read()):
                 print(" Url Already In File, Skipping")
@@ -96,7 +93,7 @@ def writeToFile(content, file, isHtml):
             else:
                 try:
                     print("Content / URL NOT found, adding CONTENT or URL")
-                    logfile = open(file, 'a')
+                    logfile = open(file, 'a', encoding='utf-')
                     logfile.write(content + "\n")
                     logfile.close()
                 except:
@@ -106,7 +103,7 @@ def writeToFile(content, file, isHtml):
             try:
                 if not os.path.exists(file):
                     print("file not found or empty. Writing first line or Creating file: " + file)
-                    logfile = open(file, 'w')
+                    logfile = open(file, 'w', encoding='utf-8')
                     logfile.write(content + "\n")
                     logfile.close()
             except Exception as e:
