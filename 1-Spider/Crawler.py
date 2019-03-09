@@ -46,22 +46,6 @@ def log_error(e):
 
 # Beautifull soup 4
 
-# Werkt nog niet
-def recursiveLinks(url_link, query):
-    raw_html = simple_get(url_link)
-    soup = BeautifulSoup(raw_html, 'html.parser')
-
-    for link in soup.find_all('a'):
-        url = link.get('href')
-        if url is not None:
-            if query is not None:
-                if query in url:
-                    if url not in alreadyQueried:
-                        alreadyQueried.append(url)
-                        print(alreadyQueried)
-                        recursiveLinks(url, query)
-
-
 def findAllHrefOnPage(url, baseUrl=None):
     if (baseUrl == None):
         baseUrl = url
@@ -76,6 +60,7 @@ def findAllHrefOnPage(url, baseUrl=None):
         for link in soup.find_all('a'):
             url_on_page = link.get('href')
             if (url_on_page is not None) and (baseUrl in url_on_page):
+                findAllHrefOnPage(url_on_page, baseUrl)
                 writeToFile(url_on_page, All_Urls_On_Website_File, False)
     except:
         print("kapot bij for in find all href on page")
@@ -92,7 +77,10 @@ def writeToFile(content, file, isHtml):
                 print("Content already exists in file")
             else:
                 try:
-                    print("Content / URL NOT found, adding CONTENT or URL")
+                    if isHtml is not True:
+                        print("URL not found, Adding url: " + content)
+                    else:
+                        print("Content NOT found, adding CONTENT or URL")
                     logfile = open(file, 'a', encoding='utf-')
                     logfile.write(content + "\n")
                     logfile.close()
@@ -113,18 +101,20 @@ def writeToFile(content, file, isHtml):
         print("Write To File Exception: " + e)
 
 
-filepath = 'Input_Links/input_link.txt'
-with open(filepath) as fp:
-    content = fp.readlines()
-All_website_urls = [x.strip() for x in content]
+#Start of application, gets all websites to scrape and put their internal linking in file
+def scrapeAllUrlFromWebsite(file_location):
+    with open(file_location) as fp:
+        content = fp.readlines()
+    All_website_urls = [x.strip() for x in content]
 
-for website in All_website_urls:
-    print("bezig met website " + website)
-    try:
-        findAllHrefOnPage(website)
-    except:
-        print("aanroepen van find all href on page error")
+    for website in All_website_urls:
+        print("bezig met website " + website)
+        try:
+            findAllHrefOnPage(website)
+        except:
+            print("aanroepen van find all href on page error")
 
+scrapeAllUrlFromWebsite('Input_Links/input_link.txt')
 
 # Naar HTML file
 def urlToHtml(url):
@@ -146,16 +136,18 @@ def urlToHtml(url):
 
     # AllFilesWithUrlPerWebsite
 
+def AllLinkInFileToHtmlFile(links_source):
+    for filename in os.listdir(links_source):
+        filename = links_source + filename
+        if os.path.exists(filename.strip()):
+            print("exists")
+            with open(filename, "r") as f:
+                for line in f.readlines():
+                    if not line:
+                        break
+                    urlToHtml(line.strip())
+        else:
+            print("file not exist.")
+#AllLinkInFileToHtmlFile("outputs/")
 
-input_path = "outputs/"
-for filename in os.listdir(input_path):
-    filename = input_path + filename
-    if os.path.exists(filename.strip()):
-        print("exists")
-        with open(filename, "r") as f:
-            for line in f.readlines():
-                if not line:
-                    break
-                urlToHtml(line.strip())
-    else:
-        print("file not exist.")
+
