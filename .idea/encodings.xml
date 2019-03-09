@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="Encoding" addBOMForNewFiles="with NO BOM" />
+  <component name="Encoding" addBOMForNewFiles="with NO BOM">
+    <file url="file://$PROJECT_DIR$/1-Spider/Html_Output/www.pvda.nl_steun-sytze_.html.txt" charset="windows-1252" />
+    <file url="PROJECT" charset="windows-1252" />
+  </component>
 </project>
