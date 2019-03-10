@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 from pathlib import Path
 import io
 import os.path
-
+import time
 
 def simple_get(url):
     """
@@ -49,26 +49,37 @@ def log_error(e):
 def findAllHrefOnPage(url, baseUrl=None):
     if (baseUrl == None):
         baseUrl = url
+        urlLocation = "outputs/" + url + ".txt"
+    else:
+        urlLocation = baseUrl
     try:
-        full_url = "https://" + url
-        raw_html = simple_get(full_url)
+        if url.startswith('//'):
+            url = "https:" + url
+        elif not url.startswith(('http', 'https')):
+            url = "https://" + url
+        raw_html = simple_get(url)
         soup = BeautifulSoup(raw_html, 'html.parser')
-        All_Urls_On_Website_File = "outputs/" + baseUrl + ".txt"
-    except:
-        print("ERROR in findAllHrefOnPage")
+
+    except Exception as e:
+        print("findAllHrefOnPage Error: " + e)
     try:
         for link in soup.find_all('a'):
             url_on_page = link.get('href')
             if (url_on_page is not None) and (baseUrl in url_on_page):
-                findAllHrefOnPage(url_on_page, baseUrl)
-                writeToFile(url_on_page, All_Urls_On_Website_File, False)
-    except:
-        print("kapot bij for in find all href on page")
+                writeToFile(url_on_page, urlLocation, False)
+    except Exception as e:
+        print("Second Error in findAllHrefOnPage: " + e)
 
-
+# This writes url into url file, if html wrties to seperate html file
 def writeToFile(content, file, isHtml):
     try:
         # and os.path.getsize(file) > 0
+        if not isHtml:
+            if content.startswith('//'):
+                content = "https:" + content
+            elif not content.startswith(('http', 'https')):
+                content = "https://" + content
+
         if os.path.isfile(file.strip()):
             print("FILE TO OPEN IS " + file)
             if (isHtml is not True) and (content in open(file).read()):
@@ -114,6 +125,21 @@ def scrapeAllUrlFromWebsite(file_location):
         except:
             print("aanroepen van find all href on page error")
 
+    for filename in os.listdir("outputs/"):
+        filename = "outputs/" + filename
+        if os.path.exists(filename.strip()):
+            print("exists")
+            with open(filename, "r") as f:
+                for line in f.readlines():
+                    if not line:
+                        break
+                    print("LINE = " + line + " FILENAME = " + filename)
+                    try:
+                        findAllHrefOnPage(line.strip(),filename)
+                    except Exception as e:
+                        print(" find href aanroeping error: " + e)
+        else:
+            print("file not exist.")
 scrapeAllUrlFromWebsite('Input_Links/input_link.txt')
 
 # Naar HTML file
@@ -149,5 +175,3 @@ def AllLinkInFileToHtmlFile(links_source):
         else:
             print("file not exist.")
 #AllLinkInFileToHtmlFile("outputs/")
-
-
