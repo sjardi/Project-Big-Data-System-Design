@@ -174,4 +174,4 @@ def AllLinkInFileToHtmlFile(links_source):
                     urlToHtml(line.strip())
         else:
             print("file not exist.")
-#AllLinkInFileToHtmlFile("outputs/")
+AllLinkInFileToHtmlFile("outputs/")
