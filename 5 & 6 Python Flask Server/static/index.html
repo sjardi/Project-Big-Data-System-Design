@@ -2,6 +2,11 @@
 <html>
     <head>
         <title>Frontend</title>
+        <style>
+            .party {
+                font-style: italic;
+            }
+        </style>
     </head>
     <body>
         <form  id="search-form">
@@ -39,11 +44,18 @@
                         link.innerText = "Test Title";
                         titleEl.appendChild(link);
                         el.appendChild(titleEl);
+                        let partyEl = document.createElement("div");
+                        partyEl.classList.add("party");
+                        partyEl.innerText = "Party: "+r._source.party;
+                        el.appendChild(partyEl);
                         let descEl = document.createElement("div");
                         descEl.innerText = r._source.content;
                         el.appendChild(descEl);
                         outputDiv.appendChild(el);
                     });
+                    if(resultObj.hits.hits.length == 0) {
+                        outputDiv.innerText = "No results matching '"+keyword+"'";
+                    }
                 });
                 return false;
             }
