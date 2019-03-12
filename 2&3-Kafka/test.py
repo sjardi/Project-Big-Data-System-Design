@@ -25,13 +25,16 @@ De Test Partij
             }
         </style>
         <!-- comment -->
+        <?xml version="1.0" encoding="UTF-8" standalone="no"?>
     </body>
 </html>
 """
 
 #from https://stackoverflow.com/questions/1936466/beautifulsoup-grab-visible-webpage-text
 def tag_visible(element):
-    if element.parent.name in ['style', 'script', 'head', 'title', 'meta', '[document]']:
+    if element[0:3] == 'xml':
+        return False
+    if element.parent.name in ['style', 'script', 'head', 'title', 'meta', '[document]', '?xml']:
         return False
     if isinstance(element, Comment):
         return False
