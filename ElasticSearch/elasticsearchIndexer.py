@@ -16,8 +16,8 @@ class elasticsearchIndexer:
             self.es.indices.delete(index=index)
 
         config = {
-            self.getSettings(),
-            self.getMappings()
+            'settings': self.getSettings(),
+            'mappings': self.getMappings()
         }
 
         print(config)
@@ -41,19 +41,19 @@ class elasticsearchIndexer:
                     'analyzer': {
                         'indexer_optimization': {
                             'tokenizer': 'whitespace',
-                            'filter': {
+                            'filter': [
                                 'lowercase',
                                 'unique',
                                 'autocomplete_edge_ngram',
                                 'word_delimiter_optimized',
-                            }
+                            ]
                         },
                         'search_optimization': {
                             'tokenizer': 'whitespace',
-                            'filter': {
+                            'filter': [
                                 'lowercase',
                                 'unique',
-                            }
+                            ]
                         },
                     }
                 },
@@ -72,8 +72,6 @@ class elasticsearchIndexer:
             }
         }
 
-        mappings = json.dumps(mappings)
-
         for item in self.esHelper.getIndex():
             mappings['mappings']['_doc']['properties'] = {
                 'search_' + item : {
@@ -82,6 +80,7 @@ class elasticsearchIndexer:
                     'search_analyzer': 'search_optimization',
                 }
             }
+        #mappings = json.dumps(mappings)
         return mappings
 
 

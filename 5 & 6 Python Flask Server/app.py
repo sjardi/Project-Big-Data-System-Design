@@ -13,10 +13,7 @@ def search(keyword):
     es = Elasticsearch()
     #res = es.search(index="scraped-content", body={"query": {"match_all": {}}})
 
-    #WARNING: the following is slow and not the correct way to do this
-    #but it works for now
-    #TODO: replace this with proper searching
-    res = es.search(index="scraped-content", body={"query": {"wildcard" : { "content" : "*"+keyword.lower()+"*" }}})
+    res = es.search(index="scraped-content", body={"query": {"term" : { "content" : keyword}}})
     return json.dumps(res)
 
 if __name__ == '__main__':
