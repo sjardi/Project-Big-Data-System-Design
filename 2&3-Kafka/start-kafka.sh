@@ -20,7 +20,8 @@ kafka_2.11-2.1.0/bin/kafka-server-start.sh kafka_2.11-2.1.0/config/server.proper
 echo "Creating Kafka Topic..."
 kafka_2.11-2.1.0/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic pages &
 
-sleep 30
+#sleep 30
+sleep 90
 
 #starting consumer
 echo "Starting Kafka Consumer"

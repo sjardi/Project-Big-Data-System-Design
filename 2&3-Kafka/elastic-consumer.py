@@ -17,7 +17,7 @@ def tag_visible(element):
 def text_from_html(soup):
     texts = soup.findAll(text=True)
     visible_texts = filter(tag_visible, texts)  
-    return u" ".join(t.strip() for t in visible_texts)
+    return " ".join(t.strip() for t in visible_texts)
 
 if __name__ == '__main__':
     parsed_topic_name = 'pages'
