@@ -3,6 +3,21 @@ from datetime import datetime
 from kafka import KafkaConsumer
 from bs4 import BeautifulSoup
 from elasticsearch import Elasticsearch
+from bs4.element import Comment
+
+#from https://stackoverflow.com/questions/1936466/beautifulsoup-grab-visible-webpage-text
+def tag_visible(element):
+    if element.parent.name in ['style', 'script', 'head', 'title', 'meta', '[document]']:
+        return False
+    if isinstance(element, Comment):
+        return False
+    return True
+
+
+def text_from_html(soup):
+    texts = soup.findAll(text=True)
+    visible_texts = filter(tag_visible, texts)  
+    return u" ".join(t.strip() for t in visible_texts)
 
 if __name__ == '__main__':
     parsed_topic_name = 'pages'
@@ -23,7 +38,7 @@ if __name__ == '__main__':
             raw_html = raw_data[secondLine+1:]
             soup = BeautifulSoup(raw_html, 'html.parser')
             title = soup.head.title.string
-            content = "\n".join(soup.stripped_strings)
+            content = text_from_html(soup)
 
             print(url)
             print(party)
