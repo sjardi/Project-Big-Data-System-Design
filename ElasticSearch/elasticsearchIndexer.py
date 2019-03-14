@@ -1,6 +1,7 @@
 from datetime import datetime
 from elasticsearch import Elasticsearch
 from elasticsearchHelper import elasticsearchHelper
+from elasticsearchSearch import elasticsearchSearch
 import json
 
 class elasticsearchIndexer:
@@ -8,24 +9,33 @@ class elasticsearchIndexer:
     def __init__(self):
         self.es = Elasticsearch()
         self.esHelper = elasticsearchHelper()
+        self.index = self.esHelper.getIndex()
 
     def createIndex(self):
-        index = self.esHelper.getIndex()
 
-        if self.es.indices.exists(index):
-            self.es.indices.delete(index=index)
+        if self.es.indices.exists(self.index):
+            self.es.indices.delete(index=self.index)
 
-        config = {
-            'settings': self.getSettings(),
-            'mappings': self.getMappings()
-        }
+        settings = self.getSettings()
+        mappings = self.getMappings()
 
-        print(config)
-        self.es.indices.create(index=index, ignore=400, body=config)
+        print(self.es.indices.create(index=self.index, ignore=400))
+        print(self.es.indices.close(index=self.index, ignore=400))
+        print(self.es.indices.put_settings(index=self.index, body=settings))
+        print(self.es.indices.put_mapping(index=self.index, body=mappings, doc_type='_doc'))
+        print(self.es.indices.open(index=self.index, ignore=400))
+
+    def indexDoc(self, content):
+        doc = {}
+        for field in self.esHelper.getFields():
+            doc[field] = content[field]
+            doc['search_' + field] = content[field]
+
+        self.es.index(index = self.index, doc_type = '_doc', body = doc)
 
     def getSettings(self):
         settings = {
-            "settings": {
+            'settings': {
                 'analysis': {
                     'filter': {
                         'autocomplete_edge_ngram': {
@@ -40,6 +50,7 @@ class elasticsearchIndexer:
                     },
                     'analyzer': {
                         'indexer_optimization': {
+                            'type': 'custom',
                             'tokenizer': 'whitespace',
                             'filter': [
                                 'lowercase',
@@ -49,6 +60,7 @@ class elasticsearchIndexer:
                             ]
                         },
                         'search_optimization': {
+                            'type': 'custom',
                             'tokenizer': 'whitespace',
                             'filter': [
                                 'lowercase',
@@ -57,32 +69,22 @@ class elasticsearchIndexer:
                         },
                     }
                 },
-                "number_of_shards": 1
             }
         }
         return settings
 
     def getMappings(self):
         mappings = {
-            "mappings": {
-                "_doc": {
-                    "properties": {
-                    }
+            "_doc": {
+                "properties": {
                 }
             }
         }
 
-        for item in self.esHelper.getIndex():
-            mappings['mappings']['_doc']['properties'] = {
-                'search_' + item : {
+        for field in self.esHelper.getFields():
+            mappings['_doc']['properties']['search_' + field] = {
                     'type': 'text',
                     'analyzer': 'indexer_optimization',
                     'search_analyzer': 'search_optimization',
                 }
-            }
-        #mappings = json.dumps(mappings)
         return mappings
-
-
-es = elasticsearchIndexer()
-es.createIndex()

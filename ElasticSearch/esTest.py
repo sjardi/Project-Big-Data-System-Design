@@ -1,9 +1,19 @@
-from initElasticsearch import elasticsearchIndexer
+from elasticsearchSearch import elasticsearchSearch
+from datetime import datetime
+from elasticsearch import Elasticsearch
+from elasticsearchHelper import elasticsearchHelper
+from elasticsearchIndexer import elasticsearchIndexer
 
-es = elasticsearchIndexer();
+import json
+import time
 
-es.index('https://google.com', 'testtesttest')
 
-es.search()
 
-es.getAllDocuments()
+esIndexer = elasticsearchIndexer()
+esIndexer.createIndex()
+content = esIndexer.esHelper.getDummyDoc()
+esIndexer.indexDoc(content)
+
+search = elasticsearchSearch()
+time.sleep(2)
+print(search.search('PVDA'))
