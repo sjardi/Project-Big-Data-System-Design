@@ -14,7 +14,7 @@ class elasticsearchSearch:
 
         body = {
             '_source': {
-                'excludes': config['searchFields']
+                'excludes': config['excludeFields']
             },
             'query': {
                 'bool': {
@@ -34,15 +34,21 @@ class elasticsearchSearch:
 
 
     def searchConfig(self):
-        searchFields = []
+        excludeFields = []
         fields = []
 
         for field in self.esHelper.getFields():
-            searchFields.append('search_' + field)
-            fields.append(field)
+            excludeFields.append('search_' + field)
+            if field == 'onderwerp' or field == 'titel' or field == 'partij':
+                fields.append('search_' + field + '^5')
+            elif field == 'url':
+                fields.append('search_' + field + '^2')
+            else:
+                fields.append('search_' + field + '^1')
+
 
         config = {
-            'searchFields': searchFields,
-            'fields': fields
+            'excludeFields': excludeFields,
+            'searchFields': fields
         }
         return config
