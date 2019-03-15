@@ -2,7 +2,8 @@ from time import sleep
 from datetime import datetime
 from kafka import KafkaConsumer
 from bs4 import BeautifulSoup
-from elasticsearch import Elasticsearch
+#from elasticsearch import Elasticsearch
+from elasticsearchIndexer import elasticsearchIndexer
 from bs4.element import Comment
 
 #from https://stackoverflow.com/questions/1936466/beautifulsoup-grab-visible-webpage-text
@@ -24,7 +25,8 @@ def text_from_html(soup):
 if __name__ == '__main__':
     parsed_topic_name = 'pages'
     
-    es = Elasticsearch()
+    #es = Elasticsearch()
+    esIndexer = elasticsearchIndexer()
 
     consumer = KafkaConsumer(parsed_topic_name, auto_offset_reset='earliest',
                              bootstrap_servers=['localhost:9092'], api_version=(0, 10), consumer_timeout_ms=1000)
@@ -55,11 +57,12 @@ if __name__ == '__main__':
                 'url': url,
                 'content': content,
                 'timestamp': datetime.now(),
-                'keyword': "test",
+                #'keyword': "test",
             }
 
-            res = es.index(index="scraped-content", doc_type='page', body=doc)
-            es.indices.refresh(index="scraped-content")
+            #res = es.index(index="scraped-content", doc_type='page', body=doc)
+            #es.indices.refresh(index="scraped-content")
+            esIndexer.indexDoc(doc)
 
     if consumer is not None:
         consumer.close()

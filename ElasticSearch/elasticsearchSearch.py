@@ -30,6 +30,7 @@ class elasticsearchSearch:
             },
             'explain': 'true'
         }
+        print(body)
 
         return self.es.search(index = self.esHelper.getIndex(), body = body)
 

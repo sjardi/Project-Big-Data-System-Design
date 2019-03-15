@@ -8,7 +8,7 @@ class elasticsearchHelper:
         return ['title','party','url','content','timestamp']
 
     def getIndex(self):
-        return 'scraped_content2'
+        return 'scraped_content'
 
     def getDummyDoc(self):
         doc = {

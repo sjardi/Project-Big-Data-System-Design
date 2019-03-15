@@ -9,11 +9,11 @@ import time
 
 
 
-esIndexer = elasticsearchIndexer()
-esIndexer.createIndex()
-content = esIndexer.esHelper.getDummyDoc()
-esIndexer.indexDoc(content)
+#esIndexer = elasticsearchIndexer()
+#esIndexer.createIndex()
+#content = esIndexer.esHelper.getDummyDoc()
+#esIndexer.indexDoc(content)
 
 search = elasticsearchSearch()
-time.sleep(2)
-print(search.search('PVDA'))
+#time.sleep(2)
+print(search.search('utrecht'))
