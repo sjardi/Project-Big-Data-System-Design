@@ -27,7 +27,8 @@ class elasticsearchSearch:
 
                     }
                 }
-            }
+            },
+            'explain': 'true'
         }
 
         return self.es.search(index = self.esHelper.getIndex(), body = body)
@@ -39,7 +40,7 @@ class elasticsearchSearch:
 
         for field in self.esHelper.getFields():
             excludeFields.append('search_' + field)
-            if field == 'onderwerp' or field == 'titel' or field == 'partij':
+            if field == 'title' or field == 'party':
                 fields.append('search_' + field + '^5')
             elif field == 'url':
                 fields.append('search_' + field + '^2')
